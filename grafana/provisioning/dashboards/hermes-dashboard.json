@@ -10,6 +10,144 @@
     {
       "collapsed": false,
       "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "id": 300,
+      "title": "💻 Laptop Host System Resources (macOS)",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "victoriametrics-ds" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 70 },
+              { "color": "red", "value": 85 }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 1 },
+      "id": 301,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }
+      },
+      "title": "CPU Usage",
+      "type": "stat",
+      "targets": [
+        {
+          "expr": "host_cpu_percent",
+          "legendFormat": "CPU %"
+        }
+      ]
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "victoriametrics-ds" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 80 },
+              { "color": "red", "value": 90 }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 1 },
+      "id": 302,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }
+      },
+      "title": "Memory Usage",
+      "type": "stat",
+      "targets": [
+        {
+          "expr": "host_memory_percent",
+          "legendFormat": "RAM %"
+        }
+      ]
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "victoriametrics-ds" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 75 },
+              { "color": "red", "value": 90 }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 1 },
+      "id": 303,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }
+      },
+      "title": "Disk Usage (Root /)",
+      "type": "stat",
+      "targets": [
+        {
+          "expr": "host_disk_percent",
+          "legendFormat": "Disk %"
+        }
+      ]
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "victoriametrics-ds" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "axisCenteredZero": false, "axisLabel": "B/s", "drawStyle": "line", "lineInterpolation": "smooth" },
+          "unit": "binBps"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 4, "w": 6, "x": 18, "y": 1 },
+      "id": 304,
+      "options": { "legend": { "displayMode": "list", "placement": "bottom" } },
+      "title": "Network I/O Throughput",
+      "type": "timeseries",
+      "targets": [
+        {
+          "expr": "rate(host_network_recv_bytes_total[15s])",
+          "legendFormat": "Download"
+        },
+        {
+          "expr": "rate(host_network_sent_bytes_total[15s])",
+          "legendFormat": "Upload"
+        }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 5 },
       "id": 100,
       "title": "🚨 Security & Anomaly Detection",
       "type": "row"
@@ -29,7 +167,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 5, "w": 8, "x": 0, "y": 1 },
+      "gridPos": { "h": 5, "w": 8, "x": 0, "y": 6 },
       "id": 1,
       "options": {
         "colorMode": "value",
@@ -63,7 +201,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 5, "w": 8, "x": 8, "y": 1 },
+      "gridPos": { "h": 5, "w": 8, "x": 8, "y": 6 },
       "id": 2,
       "options": {
         "colorMode": "value",
@@ -90,7 +228,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 5, "w": 8, "x": 16, "y": 1 },
+      "gridPos": { "h": 5, "w": 8, "x": 16, "y": 6 },
       "id": 3,
       "options": { "legend": { "displayMode": "list", "placement": "bottom" } },
       "title": "Inbound Message Traffic (Telegram)",
@@ -104,7 +242,7 @@
     },
     {
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 6 },
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 11 },
       "id": 200,
       "title": "🤖 Multi-Agent / Sub-Agent Orchestration",
       "type": "row"
@@ -125,7 +263,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 6, "w": 6, "x": 0, "y": 7 },
+      "gridPos": { "h": 6, "w": 6, "x": 0, "y": 12 },
       "id": 4,
       "options": {
         "colorMode": "value",
@@ -152,7 +290,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 6, "w": 18, "x": 6, "y": 7 },
+      "gridPos": { "h": 6, "w": 18, "x": 6, "y": 12 },
       "id": 5,
       "options": { "legend": { "displayMode": "table", "placement": "bottom" } },
       "title": "Sub-Agent Status Breakdown Over Time",
@@ -168,11 +306,11 @@
   "refresh": "5s",
   "schemaVersion": 38,
   "style": "dark",
-  "tags": ["hermes", "ai", "security", "subagents"],
+  "tags": ["hermes", "ai", "security", "subagents", "host"],
   "time": { "from": "now-1h", "to": "now" },
   "timepicker": {},
   "timezone": "browser",
   "title": "Hermes Agent & Sub-Agent Ops",
   "uid": "hermes-agent-ops",
-  "version": 1
+  "version": 2
 }

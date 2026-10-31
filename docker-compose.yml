@@ -1,0 +1,54 @@
+version: "3.8"
+
+services:
+  victoria-metrics:
+    image: victoriametrics/victoria-metrics:v1.99.0
+    container_name: hermes-victoriametrics
+    volumes:
+      - vmdata:/storage
+      - ./victoriametrics/scrape.yml:/etc/victoriametrics/scrape.yml:ro
+    command:
+      - "-promscrape.config=/etc/victoriametrics/scrape.yml"
+      - "-storageDataPath=/storage"
+      - "-httpListenAddr=:8428"
+    ports:
+      - "8428:8428"
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:10.4.1
+    container_name: hermes-grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafanadata:/var/lib/grafana
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:ro
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
+    ports:
+      - "3000:3000"
+    depends_on:
+      - victoria-metrics
+    restart: unless-stopped
+
+  exporter:
+    build:
+      context: ./exporter
+      dockerfile: Dockerfile
+    container_name: hermes-exporter
+    environment:
+      - HERMES_DIR=/root/.hermes
+      - PROFILES=default,coder
+      - SCRAPE_INTERVAL_SECONDS=5
+      - EXPORTER_PORT=9100
+    volumes:
+      # Mount ~/.hermes to container in read-only mode for safety
+      - ~/.hermes:/root/.hermes:ro
+    ports:
+      - "9100:9100"
+    restart: unless-stopped
+
+volumes:
+  vmdata:
+  grafanadata:

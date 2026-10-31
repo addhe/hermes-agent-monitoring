@@ -176,7 +176,7 @@
       "id": 402,
       "options": { "legend": { "displayMode": "list", "placement": "bottom" } },
       "title": "Registered Tools per MCP Server",
-      "type": "bargraph",
+      "type": "barchart",
       "targets": [
         { "expr": "hermes_mcp_server_tools_count", "legendFormat": "{{server}} tools" }
       ]
@@ -202,7 +202,7 @@
       "id": 501,
       "options": { "legend": { "displayMode": "table", "placement": "bottom", "calcs": ["lastNotNull"] } },
       "title": "Total Tokens by Model (Input vs Output)",
-      "type": "bargraph",
+      "type": "barchart",
       "targets": [
         { "expr": "hermes_llm_input_tokens_total", "legendFormat": "In: {{model}} ({{provider}})" },
         { "expr": "hermes_llm_output_tokens_total", "legendFormat": "Out: {{model}} ({{provider}})" }
@@ -222,7 +222,7 @@
       "id": 502,
       "options": { "legend": { "displayMode": "table", "placement": "bottom", "calcs": ["lastNotNull"] } },
       "title": "Prompt Cache Hit Tokens (Savings)",
-      "type": "bargraph",
+      "type": "barchart",
       "targets": [
         { "expr": "hermes_llm_cache_read_tokens_total > 0", "legendFormat": "Cached: {{model}}" }
       ]

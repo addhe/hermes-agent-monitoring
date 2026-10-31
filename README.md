@@ -43,3 +43,12 @@ docker-compose up -d
 - **Host Metrics Exporter**: [http://localhost:9105/metrics](http://localhost:9105/metrics)
 
 Grafana otomatis ter-provision dengan datasource VictoriaMetrics dan dashboard **"Hermes Agent & Sub-Agent Ops"** yang menyajikan metrik sistem host, keamanan agent, dan status orkestrasi sub-agent!
+
+---
+
+## 🤝 Contributing
+
+We love community contributions! Whether you want to add new dashboard panels, support additional LLM provider token formats, improve anomaly detection, or enhance cross-platform host metrics:
+
+Please read our [Contributing Guide](CONTRIBUTING.md) for local dev setup, guidelines, and PR workflow.
+

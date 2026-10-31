@@ -13,6 +13,46 @@ Designed to track:
 
 ---
 
+## 🔍 How to Read the Dashboard: Detecting Rogue Agents & Hacks
+
+A common question in autonomous AI agents: **"How do I know if my agent is secretly talking to other agents, caught in an infinite loop, or compromised via prompt injection?"**
+
+Here are the key symptoms and corresponding panels to watch on your Grafana dashboard:
+
+### 1. 🪙 Anomaly in Token Consumption ("The Silent Spender")
+- **Symptom**: Tokens ticking up steadily when you are away from the keyboard or asleep.
+- **Look at**: `🧠 LLM Tokens & Cost Economics` -> **Total Tokens by Model** & **API Calls**.
+- **What it means**: An autonomous background job, rogue multi-agent conversation, or prompt-injection jailbreak running reconnaissance tasks without your consent.
+
+### 2. 🤖 Unintended Sub-Agent Swarms
+- **Symptom**: The number of running sub-agents increases unexpectedly or tasks remain in `running` status for >15–30 minutes.
+- **Look at**: `🤖 Multi-Agent / Sub-Agent Orchestration` -> **Running Sub-Agents** & **Status Breakdown Over Time**.
+- **What it means**: An agent delegating recursive tasks without termination criteria, or communicating with external agent nodes.
+
+### 3. 🚨 Spike in Security Scan Alerts & Tool Errors
+- **Symptom**: Sudden increment in security alerts (red threshold) or repeated tool failures.
+- **Look at**: `🚨 Security & Anomaly Detection` -> **Security Scan Alerts (Total)** & **Tool Execution Errors**.
+- **What it means**: The agent encountered prompt injection attempts trying to force reading sensitive files (`.env`, `id_rsa`, keychains) or executing unauthorized shell commands (e.g. reverse shells). Repeated tool errors indicate trial-and-error privilege escalation or sandbox probing.
+
+### 4. 🌐 Suspicious Hardware & Network Activity
+- **Symptom**: Network upload bandwidth (`Network I/O Throughput`) spikes significantly, or CPU stays pinned at 80–100% when no compilation or tests are running.
+- **Look at**: `💻 Laptop Host System Resources` -> **Network I/O (Upload)** & **CPU Usage**.
+- **What it means**: Potential data exfiltration (large dumps or repositories uploaded outward) or hidden unauthorized background processes.
+
+---
+
+### 📊 Quick Incident Triage Matrix
+
+| Observed Symptom | Primary Panel to Inspect | Threat Category | Immediate Action |
+|---|---|---|---|
+| Token count rising at night | **Total Tokens by Model** | Rogue agent / rogue cron | Check recent sessions (`state.db`) & kill agent process |
+| Multiple sub-agents stuck in `running` | **Running Sub-Agents** | Orphaned delegation loop | Inspect `async_delegations` and cancel tasks |
+| High security scan count (Red) | **Security Scan Alerts** | Prompt injection / exploit | Review `agent.log` for malicious tool commands |
+| Sudden outbound network upload surge | **Network I/O Throughput** | Data exfiltration | Check open sockets, network connections, and firewall |
+| MCP Server status flips Red | **MCP Server Status** | MCP bridge crash / auth expiry | Inspect MCP server logs and refresh credentials |
+
+---
+
 ## 🤖 Prompt for Your AI Agent (One-Click Setup)
 
 If you are using **Hermes Agent**, **Claude Code**, **Codex**, or any autonomous AI coding assistant, copy and paste this prompt directly to your agent to have it set up and run this monitoring stack automatically:

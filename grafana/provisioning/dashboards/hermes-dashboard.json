@@ -42,12 +42,7 @@
       },
       "title": "CPU Usage",
       "type": "stat",
-      "targets": [
-        {
-          "expr": "host_cpu_percent",
-          "legendFormat": "CPU %"
-        }
-      ]
+      "targets": [{ "expr": "host_cpu_percent", "legendFormat": "CPU %" }]
     },
     {
       "datasource": { "type": "prometheus", "uid": "victoriametrics-ds" },
@@ -77,12 +72,7 @@
       },
       "title": "Memory Usage",
       "type": "stat",
-      "targets": [
-        {
-          "expr": "host_memory_percent",
-          "legendFormat": "RAM %"
-        }
-      ]
+      "targets": [{ "expr": "host_memory_percent", "legendFormat": "RAM %" }]
     },
     {
       "datasource": { "type": "prometheus", "uid": "victoriametrics-ds" },
@@ -112,12 +102,7 @@
       },
       "title": "Disk Usage (Root /)",
       "type": "stat",
-      "targets": [
-        {
-          "expr": "host_disk_percent",
-          "legendFormat": "Disk %"
-        }
-      ]
+      "targets": [{ "expr": "host_disk_percent", "legendFormat": "Disk %" }]
     },
     {
       "datasource": { "type": "prometheus", "uid": "victoriametrics-ds" },
@@ -135,19 +120,116 @@
       "title": "Network I/O Throughput",
       "type": "timeseries",
       "targets": [
-        {
-          "expr": "rate(host_network_recv_bytes_total[15s])",
-          "legendFormat": "Download"
-        },
-        {
-          "expr": "rate(host_network_sent_bytes_total[15s])",
-          "legendFormat": "Upload"
-        }
+        { "expr": "rate(host_network_recv_bytes_total[15s])", "legendFormat": "Download" },
+        { "expr": "rate(host_network_sent_bytes_total[15s])", "legendFormat": "Upload" }
       ]
     },
     {
       "collapsed": false,
       "gridPos": { "h": 1, "w": 24, "x": 0, "y": 5 },
+      "id": 400,
+      "title": "🔌 Model Context Protocol (MCP) Integrations",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "victoriametrics-ds" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "mappings": [
+            { "options": { "0": { "color": "red", "text": "DISCONNECTED" }, "1": { "color": "green", "text": "CONNECTED" } }, "type": "value" }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "green", "value": 1 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 4, "w": 12, "x": 0, "y": 6 },
+      "id": 401,
+      "options": {
+        "colorMode": "background",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }
+      },
+      "title": "MCP Servers Connection Status",
+      "type": "stat",
+      "targets": [
+        { "expr": "hermes_mcp_server_status", "legendFormat": "{{server}} ({{profile}})" }
+      ]
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "victoriametrics-ds" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "axisCenteredZero": false, "drawStyle": "bars", "fillOpacity": 80 }
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 4, "w": 12, "x": 12, "y": 6 },
+      "id": 402,
+      "options": { "legend": { "displayMode": "list", "placement": "bottom" } },
+      "title": "Registered Tools per MCP Server",
+      "type": "bargraph",
+      "targets": [
+        { "expr": "hermes_mcp_server_tools_count", "legendFormat": "{{server}} tools" }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 10 },
+      "id": 500,
+      "title": "🧠 LLM Tokens & Cost Economics",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "victoriametrics-ds" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "axisCenteredZero": false, "drawStyle": "bars", "fillOpacity": 80 },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 6, "w": 12, "x": 0, "y": 11 },
+      "id": 501,
+      "options": { "legend": { "displayMode": "table", "placement": "bottom", "calcs": ["lastNotNull"] } },
+      "title": "Total Tokens by Model (Input vs Output)",
+      "type": "bargraph",
+      "targets": [
+        { "expr": "hermes_llm_input_tokens_total", "legendFormat": "In: {{model}} ({{provider}})" },
+        { "expr": "hermes_llm_output_tokens_total", "legendFormat": "Out: {{model}} ({{provider}})" }
+      ]
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "victoriametrics-ds" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "axisCenteredZero": false, "drawStyle": "bars", "fillOpacity": 80 },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 6, "w": 12, "x": 12, "y": 11 },
+      "id": 502,
+      "options": { "legend": { "displayMode": "table", "placement": "bottom", "calcs": ["lastNotNull"] } },
+      "title": "Prompt Cache Hit Tokens (Savings)",
+      "type": "bargraph",
+      "targets": [
+        { "expr": "hermes_llm_cache_read_tokens_total > 0", "legendFormat": "Cached: {{model}}" }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 17 },
       "id": 100,
       "title": "🚨 Security & Anomaly Detection",
       "type": "row"
@@ -167,7 +249,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 5, "w": 8, "x": 0, "y": 6 },
+      "gridPos": { "h": 5, "w": 8, "x": 0, "y": 18 },
       "id": 1,
       "options": {
         "colorMode": "value",
@@ -179,10 +261,7 @@
       "title": "Security Scan Alerts (Total)",
       "type": "stat",
       "targets": [
-        {
-          "expr": "sum(hermes_security_scan_alerts_total)",
-          "legendFormat": "Alerts"
-        }
+        { "expr": "sum(hermes_security_scan_alerts_total)", "legendFormat": "Alerts" }
       ]
     },
     {
@@ -201,7 +280,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 5, "w": 8, "x": 8, "y": 6 },
+      "gridPos": { "h": 5, "w": 8, "x": 8, "y": 18 },
       "id": 2,
       "options": {
         "colorMode": "value",
@@ -213,10 +292,7 @@
       "title": "Tool Execution Errors",
       "type": "stat",
       "targets": [
-        {
-          "expr": "sum(hermes_tool_call_errors_total)",
-          "legendFormat": "Errors"
-        }
+        { "expr": "sum(hermes_tool_call_errors_total)", "legendFormat": "Errors" }
       ]
     },
     {
@@ -228,21 +304,18 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 5, "w": 8, "x": 16, "y": 6 },
+      "gridPos": { "h": 5, "w": 8, "x": 16, "y": 18 },
       "id": 3,
       "options": { "legend": { "displayMode": "list", "placement": "bottom" } },
       "title": "Inbound Message Traffic (Telegram)",
       "type": "timeseries",
       "targets": [
-        {
-          "expr": "rate(hermes_inbound_messages_total[1m]) * 60",
-          "legendFormat": "{{profile}} - {{source}}"
-        }
+        { "expr": "rate(hermes_inbound_messages_total[1m]) * 60", "legendFormat": "{{profile}} - {{source}}" }
       ]
     },
     {
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 11 },
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 23 },
       "id": 200,
       "title": "🤖 Multi-Agent / Sub-Agent Orchestration",
       "type": "row"
@@ -263,7 +336,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 6, "w": 6, "x": 0, "y": 12 },
+      "gridPos": { "h": 6, "w": 6, "x": 0, "y": 24 },
       "id": 4,
       "options": {
         "colorMode": "value",
@@ -275,10 +348,7 @@
       "title": "Running Sub-Agents",
       "type": "stat",
       "targets": [
-        {
-          "expr": "sum(hermes_subagent_active_count{state=\"running\"})",
-          "legendFormat": "Running"
-        }
+        { "expr": "sum(hermes_subagent_active_count{state=\"running\"})", "legendFormat": "Running" }
       ]
     },
     {
@@ -290,27 +360,24 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 6, "w": 18, "x": 6, "y": 12 },
+      "gridPos": { "h": 6, "w": 18, "x": 6, "y": 24 },
       "id": 5,
       "options": { "legend": { "displayMode": "table", "placement": "bottom" } },
       "title": "Sub-Agent Status Breakdown Over Time",
       "type": "timeseries",
       "targets": [
-        {
-          "expr": "hermes_subagent_active_count",
-          "legendFormat": "{{profile}} - {{state}}"
-        }
+        { "expr": "hermes_subagent_active_count", "legendFormat": "{{profile}} - {{state}}" }
       ]
     }
   ],
   "refresh": "5s",
   "schemaVersion": 38,
   "style": "dark",
-  "tags": ["hermes", "ai", "security", "subagents", "host"],
+  "tags": ["hermes", "ai", "security", "subagents", "host", "mcp", "tokens"],
   "time": { "from": "now-1h", "to": "now" },
   "timepicker": {},
   "timezone": "browser",
   "title": "Hermes Agent & Sub-Agent Ops",
   "uid": "hermes-agent-ops",
-  "version": 2
+  "version": 3
 }
